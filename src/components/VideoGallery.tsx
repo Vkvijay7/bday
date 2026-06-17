@@ -312,6 +312,19 @@ export default function VideoGallery({ onScrollUpExit, onScrollDownExit }: Video
                         </span>
                       )}
                     </div>
+
+                    {/* Direct Go to Surprise CTA Button for mobile/desktop reliability */}
+                    {idx === SLIDES.length - 1 && watchedSlides[idx] && onScrollDownExit && (
+                      <button
+                        className="flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-pink-500 via-rose-500 to-red-600 hover:scale-105 active:scale-95 text-white font-sans font-extrabold text-xs md:text-sm uppercase tracking-[0.12em] transition-all duration-300 shadow-lg cursor-pointer pointer-events-auto border border-pink-400/20"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onScrollDownExit();
+                        }}
+                      >
+                        ✦ CLICK FOR SURPRISE ➜
+                      </button>
+                    )}
                   </div>
                 </div>
               )}
