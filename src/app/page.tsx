@@ -202,9 +202,10 @@ export default function Home() {
             setShowQuote(true);
           }
           return;
+        } else if (delta < 0) {
+          // Prevent accidental drags/swipes on the Dome Gallery from going back to the flight screen
+          return;
         }
-        
-        // If delta < 0, let it fall through to scroll back into flight!
       }
 
       // Sensitivity factor: delta is around 100 for wheel scroll
