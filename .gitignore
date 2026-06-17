@@ -39,3 +39,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.vercel
+.env*
+
+# Ignore local video assets and archives
+/public/videos/
+/src/components/videos/
+*.zip
+

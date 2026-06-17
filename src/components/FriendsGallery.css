@@ -1,0 +1,177 @@
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap");
+
+.friends-gallery-root {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	inset: 0;
+	z-index: 60;
+	background: transparent;
+	font-family: "DM Mono", monospace;
+	cursor: default;
+	overflow: hidden;
+}
+
+.friends-gallery-root #ocean {
+	position: absolute;
+	inset: 0;
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+/* ── OVERLAY ── */
+.friends-gallery-root .ui {
+	position: absolute;
+	inset: 0;
+	z-index: 10;
+	pointer-events: none;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding: 32px 40px;
+	color: #fff;
+}
+
+.friends-gallery-root .ui-top {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+
+.friends-gallery-root .label {
+	font-size: 12px;
+	letter-spacing: 0.45em;
+	text-transform: uppercase;
+	color: rgba(255, 255, 255, 0.85);
+	text-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
+}
+
+.friends-gallery-root .mood {
+	text-align: right;
+	text-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
+}
+.friends-gallery-root .mood span {
+	display: block;
+}
+.friends-gallery-root #mood-name {
+	font-size: 12px;
+	letter-spacing: 0.3em;
+	color: rgba(255, 255, 255, 0.9);
+}
+.friends-gallery-root .mood-time {
+	font-family: "Instrument Serif", serif;
+	font-size: 26px;
+	font-variant-numeric: tabular-nums;
+	margin-top: 2px;
+	color: #fff;
+}
+
+.friends-gallery-root .ui-bottom {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 22px;
+}
+
+.friends-gallery-root .caption {
+	font-family: "Instrument Serif", serif;
+	font-size: clamp(1.1rem, 3vw, 1.9rem);
+	letter-spacing: 0.01em;
+	color: rgba(255, 255, 255, 0.92);
+	text-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
+	text-align: center;
+}
+.friends-gallery-root .caption em {
+	font-style: italic;
+}
+
+/* ── SLIDER ── */
+.friends-gallery-root .slider-wrap {
+	pointer-events: auto;
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	width: min(440px, 80vw);
+	padding: 12px 18px;
+	background: rgba(10, 16, 28, 0.32);
+	border: 1px solid rgba(255, 255, 255, 0.16);
+	border-radius: 999px;
+	backdrop-filter: blur(12px);
+}
+.friends-gallery-root .slider-end {
+	font-size: 9.5px;
+	letter-spacing: 0.2em;
+	color: rgba(255, 255, 255, 0.6);
+	white-space: nowrap;
+}
+
+.friends-gallery-root input[type="range"] {
+	-webkit-appearance: none;
+	appearance: none;
+	flex: 1;
+	height: 3px;
+	border-radius: 3px;
+	background: linear-gradient(
+		90deg,
+		#3a4a8a 0%,
+		#6fa8d4 25%,
+		#ffd27f 55%,
+		#ff7e54 78%,
+		#1a2244 100%
+	);
+	outline: none;
+	cursor: grab;
+}
+.friends-gallery-root input[type="range"]:active {
+	cursor: grabbing;
+}
+.friends-gallery-root input[type="range"]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	background: #fff;
+	border: 2px solid rgba(0, 0, 0, 0.15);
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35), 0 0 0 6px rgba(255, 255, 255, 0.12);
+	cursor: grab;
+}
+.friends-gallery-root input[type="range"]::-moz-range-thumb {
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	background: #fff;
+	border: 2px solid rgba(0, 0, 0, 0.15);
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+	cursor: grab;
+}
+
+@media (max-width: 600px) {
+	.friends-gallery-root .ui {
+		padding: 22px 22px;
+	}
+	.friends-gallery-root .label {
+		font-size: 10px;
+	}
+}
+
+/* ── CAROUSEL CENTER LAYOUT ── */
+.friends-gallery-root .carousel-center-container {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: auto;
+}
+
+/* Scoped Carousel styles */
+.friends-gallery-root .carousel-wrap {
+  font-family: "Bricolage Grotesque", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

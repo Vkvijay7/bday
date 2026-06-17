@@ -1,0 +1,176 @@
+/* Custom style for the Proposal page with 3D folding books */
+
+.proposal-page-root {
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at center, #1b0a2a, #050209);
+  color: white;
+  z-index: 80;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Star field effect in background */
+.proposal-page-root .bg-stars {
+  background-image: radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                    radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+                    radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px);
+  background-size: 550px 550px, 350px 350px, 250px 250px;
+  background-position: 0 0, 40px 60px, 130px 270px;
+  animation: floatStars 20s linear infinite;
+}
+
+@keyframes floatStars {
+  from { background-position: 0 0, 40px 60px, 130px 270px; }
+  to { background-position: 550px 550px, 390px 410px, 380px 820px; }
+}
+
+/* Books Container with perspective */
+.proposal-page-root .books-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 60px;
+  perspective: 2000px;
+  margin-top: 20px;
+}
+
+@media screen and (max-width: 640px) {
+  .proposal-page-root .books-container {
+    flex-direction: column;
+    gap: 36px;
+    margin-top: 10px;
+  }
+}
+
+/* Individual Book style */
+.proposal-page-root .book {
+  position: relative;
+  border-radius: 12px;
+  width: 220px;
+  height: 300px;
+  background-color: #fcfbf7; /* Luxury warm page color */
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  color: #1a1a1a;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* Page inner text formatting */
+.proposal-page-root .book .inner-content {
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.proposal-page-root .book .inner-text {
+  font-size: 13px;
+  line-height: 1.6;
+  font-weight: 500;
+  color: #2e2a47;
+  margin: 0;
+}
+
+/* Book Cover formatting */
+.proposal-page-root .book .cover {
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.8s ease;
+  transform-origin: left;
+  box-shadow: 4px 6px 15px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+/* Red Yes card */
+.proposal-page-root .book.yes-card .cover {
+  background: linear-gradient(135deg, #e11d48, #be123c);
+  border: 1.5px solid rgba(253, 164, 175, 0.45);
+  color: white;
+}
+
+/* Slate No card */
+.proposal-page-root .book.no-card .cover {
+  background: linear-gradient(135deg, #475569, #1e293b);
+  border: 1.5px solid rgba(148, 163, 184, 0.45);
+  color: white;
+}
+
+.proposal-page-root .book .cover p {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  font-family: 'Inter', sans-serif;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.45);
+  margin: 0;
+}
+
+/* Hover and Click transformations */
+.proposal-page-root .book:hover {
+  transform: rotateY(10deg) translateZ(5px);
+}
+
+.proposal-page-root .book:hover .cover,
+.proposal-page-root .book.clicked .cover {
+  transform: rotateY(-135deg);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Modals Overlay */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.proposal-page-root .modal-backdrop {
+  backdrop-filter: blur(10px);
+}
+
+.proposal-page-root .modal-box {
+  box-shadow: 0 25px 60px -10px rgba(0,0,0,0.8);
+}
+
+/* Sticker Style inside book page */
+.proposal-page-root .propose-sticker {
+  width: 95px;
+  height: 95px;
+  object-fit: contain;
+  margin-top: 15px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  background-color: white;
+  transition: transform 0.3s ease;
+}
+
+.proposal-page-root .book:hover .propose-sticker {
+  transform: scale(1.05) rotate(2deg);
+}

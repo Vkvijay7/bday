@@ -1,0 +1,21 @@
+.curved-loop-jacket {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.curved-loop-svg {
+  user-select: none;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  display: block;
+  font-size: 3.5rem;
+  fill: currentColor;
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 1;
+}

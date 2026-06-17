@@ -1,0 +1,428 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500&display=swap");
+
+.butterfly-gallery-root {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: #1a1a1a;
+  color: #FFFFFFDD;
+  overflow: hidden;
+  font-family: "Inter", sans-serif;
+  z-index: 65;
+  pointer-events: auto;
+}
+
+/* Background/thumbnail Cards */
+.butterfly-gallery-root .card {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-position: center;
+  background-size: cover;
+  box-shadow: 6px 6px 10px 2px rgba(0, 0, 0, 0.6);
+  transition: border-radius 0.3s ease;
+}
+
+/* Left-side cinematic shadow overlay to make main text readable */
+.butterfly-gallery-root .shadow-left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.45) 50%, rgba(0, 0, 0, 0) 100%);
+  z-index: 21;
+  pointer-events: none;
+}
+
+/* Hidden elements inside non-active thumbnails */
+.butterfly-gallery-root .card-content {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #FFFFFFDD;
+  padding-left: 16px;
+  pointer-events: none;
+  max-width: calc(100% - 20px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.butterfly-gallery-root .content-place {
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.butterfly-gallery-root .content-title-1,
+.butterfly-gallery-root .content-title-2 {
+  font-weight: 600;
+  font-size: 20px;
+  font-family: "Oswald", sans-serif;
+  line-height: 1.2;
+}
+
+.butterfly-gallery-root .content-start {
+  width: 30px;
+  height: 5px;
+  border-radius: 99px;
+  background-color: #FFFFFFDD;
+}
+
+/* Details Card positioning */
+.butterfly-gallery-root .details {
+  z-index: 22;
+  position: absolute;
+  top: 220px;
+  left: 60px;
+  pointer-events: none;
+}
+
+.butterfly-gallery-root .details .place-box {
+  height: 46px;
+  overflow: hidden;
+}
+
+.butterfly-gallery-root .details .place-box .text {
+  padding-top: 16px;
+  font-size: 20px;
+  position: relative;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.95), 0 4px 15px rgba(0, 0, 0, 0.85);
+}
+
+.butterfly-gallery-root .details .place-box .text:before {
+  top: 0;
+  left: 0;
+  position: absolute;
+  content: "";
+  width: 30px;
+  height: 4px;
+  border-radius: 99px;
+  background-color: white;
+}
+
+.butterfly-gallery-root .details .title-1,
+.butterfly-gallery-root .details .title-2 {
+  font-weight: 600;
+  font-size: 72px;
+  font-family: "Oswald", sans-serif;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.95), 0 4px 15px rgba(0, 0, 0, 0.85);
+}
+
+.butterfly-gallery-root .details .title-box-1,
+.butterfly-gallery-root .details .title-box-2 {
+  margin-top: 2px;
+  height: 100px;
+  overflow: hidden;
+}
+
+.butterfly-gallery-root .details > .desc {
+  margin-top: 16px;
+  width: 500px;
+  font-size: 15px;
+  line-height: 1.6;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.95), 0 4px 15px rgba(0, 0, 0, 0.85);
+  pointer-events: auto;
+}
+
+.butterfly-gallery-root .details > .cta {
+  width: 500px;
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  pointer-events: auto;
+}
+
+.butterfly-gallery-root .details > .cta > .bookmark {
+  border: none;
+  background-color: #ecad29;
+  width: 36px;
+  height: 36px;
+  border-radius: 99px;
+  color: white;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.butterfly-gallery-root .details > .cta > .bookmark svg {
+  width: 20px;
+  height: 20px;
+}
+
+.butterfly-gallery-root .details > .cta > .discover {
+  border: 1px solid #ffffff;
+  background-color: transparent;
+  height: 36px;
+  border-radius: 99px;
+  color: #ffffff;
+  padding: 4px 24px;
+  font-size: 12px;
+  margin-left: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.butterfly-gallery-root .details > .cta > .discover:hover {
+  background-color: white;
+  color: #1a1a1a;
+}
+
+/* Header bar styling */
+.butterfly-gallery-root nav {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 36px;
+  font-weight: 500;
+  pointer-events: auto;
+}
+
+.butterfly-gallery-root nav svg {
+  width: 20px;
+  height: 20px;
+}
+
+.butterfly-gallery-root nav .svg-container {
+  width: 20px;
+  height: 20px;
+}
+
+.butterfly-gallery-root nav > div {
+  display: inline-flex;
+  align-items: center;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+.butterfly-gallery-root nav > div:first-child {
+  gap: 10px;
+}
+
+.butterfly-gallery-root nav > div:last-child {
+  gap: 24px;
+}
+
+.butterfly-gallery-root nav > div:last-child > div {
+  cursor: pointer;
+}
+
+.butterfly-gallery-root nav > div:last-child > .active {
+  position: relative;
+}
+
+.butterfly-gallery-root nav > div:last-child > .active:after {
+  bottom: -8px;
+  left: 0;
+  right: 0;
+  position: absolute;
+  content: "";
+  height: 3px;
+  border-radius: 99px;
+  background-color: #ecad29;
+}
+
+/* Top Progress running indicator */
+.butterfly-gallery-root .indicator {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 5px;
+  z-index: 60;
+  background-color: #ecad29;
+}
+
+/* Pagination container */
+.butterfly-gallery-root .pagination {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  display: inline-flex;
+  pointer-events: auto;
+}
+
+.butterfly-gallery-root .pagination > .arrow {
+  z-index: 60;
+  width: 50px;
+  height: 50px;
+  border-radius: 999px;
+  border: 2px solid #ffffff55;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.butterfly-gallery-root .pagination > .arrow:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: #ffffff99;
+}
+
+.butterfly-gallery-root .pagination > .arrow:active {
+  transform: scale(0.95);
+}
+
+.butterfly-gallery-root .pagination > .arrow:nth-child(2) {
+  margin-left: 20px;
+}
+
+.butterfly-gallery-root .pagination svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 2;
+  color: #ffffff99;
+}
+
+.butterfly-gallery-root .progress-sub-container {
+  margin-left: 24px;
+  z-index: 60;
+  width: 500px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
+
+.butterfly-gallery-root .progress-sub-background {
+  width: 100%;
+  height: 3px;
+  background-color: #ffffff33;
+}
+
+.butterfly-gallery-root .progress-sub-foreground {
+  height: 3px;
+  background-color: #ecad29;
+  width: 0;
+  transition: width 0.3s ease;
+}
+
+.butterfly-gallery-root .slide-numbers {
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+  z-index: 60;
+  position: relative;
+}
+
+.butterfly-gallery-root .slide-numbers .item {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  color: white;
+  top: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+/* Cover screen animation block */
+.butterfly-gallery-root .cover {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #f7f7f5;
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* Responsive adjust for mobile */
+@media screen and (max-width: 800px) {
+  .butterfly-gallery-root nav > div:last-child {
+    display: none; /* Hide secondary menu on tablet/mobile for spacing */
+  }
+
+  .butterfly-gallery-root .shadow-left {
+    display: block !important;
+    width: 100% !important;
+    background: rgba(0, 0, 0, 0.42) !important;
+  }
+
+  .butterfly-gallery-root .card-content {
+    display: none !important;
+  }
+
+  .butterfly-gallery-root .details {
+    left: 24px;
+    top: 100px;
+    width: calc(100% - 48px);
+    background: transparent;
+    padding: 0px;
+    border-radius: 0px;
+    backdrop-filter: none;
+    border: none;
+    box-shadow: none;
+    pointer-events: auto;
+  }
+
+  .butterfly-gallery-root .details .title-1,
+  .butterfly-gallery-root .details .title-2 {
+    font-size: 36px;
+  }
+
+  .butterfly-gallery-root .details .title-box-1,
+  .butterfly-gallery-root .details .title-box-2 {
+    height: 50px;
+  }
+
+  .butterfly-gallery-root .details > .desc {
+    width: 100%;
+    font-size: 13px;
+    margin-top: 10px;
+  }
+
+  .butterfly-gallery-root .details > .cta {
+    width: 100%;
+    margin-top: 14px;
+  }
+
+  .butterfly-gallery-root .progress-sub-container {
+    width: 180px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .butterfly-gallery-root nav {
+    padding: 15px 20px;
+  }
+
+  .butterfly-gallery-root .details {
+    left: 16px;
+    top: 90px;
+    width: calc(100% - 32px);
+    padding: 0px;
+  }
+
+  .butterfly-gallery-root .details .title-1,
+  .butterfly-gallery-root .details .title-2 {
+    font-size: 28px;
+  }
+
+  .butterfly-gallery-root .details .title-box-1,
+  .butterfly-gallery-root .details .title-box-2 {
+    height: 40px;
+  }
+
+  .butterfly-gallery-root .details > .desc {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .butterfly-gallery-root .progress-sub-container {
+    width: 100px;
+  }
+}
