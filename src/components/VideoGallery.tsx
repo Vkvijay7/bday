@@ -132,8 +132,8 @@ export default function VideoGallery({ onScrollUpExit, onScrollDownExit }: Video
       }
     };
 
-    let touchStartX = 0;
-    let touchStartY = 0;
+    let touchStartX = -1;
+    let touchStartY = -1;
     let touchHasTriggered = false;
 
     const handleTouchStart = (e: TouchEvent) => {
@@ -144,6 +144,7 @@ export default function VideoGallery({ onScrollUpExit, onScrollDownExit }: Video
 
     const handleTouchMove = (e: TouchEvent) => {
       if (touchHasTriggered) return;
+      if (touchStartX === -1 || touchStartY === -1) return;
 
       const currentX = e.touches[0].clientX;
       const currentY = e.touches[0].clientY;
