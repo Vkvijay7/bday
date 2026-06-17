@@ -38,9 +38,47 @@
 
 @media screen and (max-width: 640px) {
   .proposal-page-root .books-container {
-    flex-direction: column;
-    gap: 36px;
-    margin-top: 10px;
+    flex-direction: row;
+    gap: 16px;
+    margin-top: 15px;
+    justify-content: center;
+    width: 100%;
+    padding: 0 16px;
+  }
+  .proposal-page-root .book {
+    width: 140px;
+    height: 200px;
+    padding: 12px;
+    border-radius: 8px;
+  }
+  .proposal-page-root .book .cover {
+    border-radius: 8px;
+  }
+  .proposal-page-root .book .cover p {
+    font-size: 18px;
+  }
+  .proposal-page-root .book .inner-text {
+    font-size: 9px;
+    line-height: 1.35;
+  }
+  .proposal-page-root .propose-sticker {
+    width: 48px;
+    height: 48px;
+    margin-top: 8px;
+    border-radius: 4px;
+  }
+  .proposal-page-root .book .inner-content p.font-serif {
+    font-size: 11px;
+    margin-bottom: 4px;
+  }
+  .proposal-page-root .proposal-header {
+    margin-bottom: 16px !important;
+  }
+  .proposal-page-root .proposal-header h1, 
+  .proposal-page-root .proposal-header .font-serif,
+  .proposal-page-root .proposal-header .font-serif span {
+    font-size: 24px !important;
+    letter-spacing: 0.05em !important;
   }
 }
 

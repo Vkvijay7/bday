@@ -12,9 +12,17 @@ interface ProposalPageProps {
 
 export default function ProposalPage({ onBackClick }: ProposalPageProps) {
   const [selectedResponse, setSelectedResponse] = useState<"yes" | "no" | null>(null);
+  const [flippedCard, setFlippedCard] = useState<"yes" | "no" | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const requestRef = useRef<number | null>(null);
   const heartsRef = useRef<any[]>([]);
+
+  // Reset flipped state when selectedResponse changes to null
+  useEffect(() => {
+    if (selectedResponse === null) {
+      setFlippedCard(null);
+    }
+  }, [selectedResponse]);
 
   // Canvas Hearts animation for YES click
   useEffect(() => {
@@ -177,7 +185,10 @@ export default function ProposalPage({ onBackClick }: ProposalPageProps) {
   }, [onBackClick]);
 
   const handleCardClick = (response: "yes" | "no") => {
-    setSelectedResponse(response);
+    setFlippedCard(response);
+    setTimeout(() => {
+      setSelectedResponse(response);
+    }, 900);
   };
 
   return (
@@ -216,7 +227,7 @@ export default function ProposalPage({ onBackClick }: ProposalPageProps) {
       <div className="books-container z-20">
         {/* YES Card */}
         <div 
-          className={`book yes-card ${selectedResponse === "yes" ? "clicked" : ""}`}
+          className={`book yes-card ${flippedCard === "yes" ? "clicked" : ""}`}
           onClick={() => handleCardClick("yes")}
         >
           <div className="cover">
@@ -233,7 +244,7 @@ export default function ProposalPage({ onBackClick }: ProposalPageProps) {
 
         {/* NO Card */}
         <div 
-          className={`book no-card ${selectedResponse === "no" ? "clicked" : ""}`}
+          className={`book no-card ${flippedCard === "no" ? "clicked" : ""}`}
           onClick={() => handleCardClick("no")}
         >
           <div className="cover">
