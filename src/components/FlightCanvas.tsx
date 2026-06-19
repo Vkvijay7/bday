@@ -504,9 +504,9 @@ export default function FlightCanvas({
 
     // Define 3D milestone positions along the serpentine spline track (on alternating sides, pushed further out to keep them at a distance)
     const milestoneTargets = [
-      { id: 1, t: 0.23, offsetX: -3.8, offsetY: 0.6 }, // Milestone 1: Left
-      { id: 2, t: 0.48, offsetX: 3.8, offsetY: 0.5 },  // Milestone 2: Right
-      { id: 3, t: 0.73, offsetX: -3.8, offsetY: 0.6 }, // Milestone 3: Left
+      { id: 1, t: 0.23, offsetX: -2.5, offsetY: 0.6, mobileOffsetX: -0.45 }, // Milestone 1: Left (adjusted to center nicely)
+      { id: 2, t: 0.48, offsetX: 3.8, offsetY: 0.5, mobileOffsetX: 0.75 },   // Milestone 2: Right
+      { id: 3, t: 0.73, offsetX: -3.8, offsetY: 0.6, mobileOffsetX: -0.75 },  // Milestone 3: Left
     ];
 
     const milestoneWorldPositions = milestoneTargets.map(target => {
@@ -523,7 +523,8 @@ export default function FlightCanvas({
         position: worldPos,
         t: target.t,
         offsetX: target.offsetX,
-        offsetY: target.offsetY
+        offsetY: target.offsetY,
+        mobileOffsetX: target.mobileOffsetX
       };
     });
 
@@ -906,7 +907,7 @@ export default function FlightCanvas({
           const el = cardRef?.current;
           if (el) {
             const isMobile = camera.aspect < 0.85;
-            const activeOffsetX = isMobile ? (mw.offsetX > 0 ? 0.75 : -0.75) : mw.offsetX;
+            const activeOffsetX = isMobile ? mw.mobileOffsetX : mw.offsetX;
             const activeOffsetY = isMobile ? mw.offsetY - 0.15 : mw.offsetY;
 
             const pos = spline.getPointAt(mw.t);

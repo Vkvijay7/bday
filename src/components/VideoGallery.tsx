@@ -151,36 +151,8 @@ export default function VideoGallery({ onScrollUpExit, onScrollDownExit }: Video
       const diffX = touchStartX - currentX;
       const diffY = touchStartY - currentY;
 
-      // Check if the swipe is mostly horizontal or vertical
-      if (Math.abs(diffX) > Math.abs(diffY)) {
-        // Horizontal Swipe
-        if (diffX > 65) {
-          // Swipe left -> advance (requires watch completion)
-          if (activeIndex < SLIDES.length - 1) {
-            if (!watchedSlidesRef.current[activeIndex]) return; // Gated!
-            setActiveIndex((prev) => prev + 1);
-            touchHasTriggered = true;
-          } else {
-            // At final slide, swipe left to exit to proposal page
-            if (watchedSlidesRef.current[activeIndex] && onScrollDownExit) {
-              onScrollDownExit();
-              touchHasTriggered = true;
-            }
-          }
-        } else if (diffX < -65) {
-          // Swipe right -> previous or exit
-          if (activeIndex > 0) {
-            setActiveIndex((prev) => prev - 1);
-            touchHasTriggered = true;
-          } else {
-            if (onScrollUpExit) {
-              onScrollUpExit();
-              touchHasTriggered = true;
-            }
-          }
-        }
-      } else {
-        // Vertical Swipe (Swipe Up = Scroll Down, Swipe Down = Scroll Up)
+      // Only handle Vertical Swipe (Swipe Up = Scroll Down, Swipe Down = Scroll Up)
+      if (Math.abs(diffY) > Math.abs(diffX)) {
         if (diffY > 65) {
           // Swipe Up (Scroll Down) -> advance or exit to proposal page
           if (activeIndex < SLIDES.length - 1) {

@@ -541,7 +541,6 @@ export default function ButterflyGallery() {
               />
             </svg>
           </button>
-          <button className="discover">Discover Location</button>
         </div>
       </div>
 
@@ -571,7 +570,6 @@ export default function ButterflyGallery() {
               />
             </svg>
           </button>
-          <button className="discover">Discover Location</button>
         </div>
       </div>
 

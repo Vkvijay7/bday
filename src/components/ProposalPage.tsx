@@ -133,7 +133,7 @@ export default function ProposalPage({ onBackClick }: ProposalPageProps) {
     };
   }, [selectedResponse]);
 
-  // Wheel scroll up & touch swipe right to go back
+  // Wheel scroll up & touch swipe down to go back
   useEffect(() => {
     let lastScrollTime = 0;
 
@@ -166,8 +166,8 @@ export default function ProposalPage({ onBackClick }: ProposalPageProps) {
       const diffX = touchStartX - currentX;
       const diffY = touchStartY - currentY;
 
-      // Swipe right to go back
-      if (Math.abs(diffX) > Math.abs(diffY) && diffX < -65) {
+      // Swipe down to go back (diffY < -65)
+      if (Math.abs(diffY) > Math.abs(diffX) && diffY < -65) {
         onBackClick();
         touchHasTriggered = true;
       }
