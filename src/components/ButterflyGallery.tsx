@@ -74,6 +74,7 @@ export default function ButterflyGallery() {
   const detailsEvenRef = useRef(true);
   const isTransitioning = useRef(false);
   const indicatorTimeline = useRef<gsap.core.Timeline | null>(null);
+  const isPausedByUser = useRef(false);
 
   // Layout Refs
   const cardWidthRef = useRef(200);
@@ -456,6 +457,31 @@ export default function ButterflyGallery() {
     });
 
     indicatorTimeline.current = tl;
+
+    // If user is currently pressing/holding, pause the newly created timeline
+    if (isPausedByUser.current) {
+      tl.pause();
+    }
+  };
+
+  const handlePressStart = (e: React.TouchEvent | React.MouseEvent) => {
+    // Avoid pausing if clicking arrow buttons or bookmark button
+    const target = e.target as HTMLElement;
+    if (target.closest(".arrow") || target.closest(".bookmark")) {
+      return;
+    }
+    isPausedByUser.current = true;
+    if (indicatorTimeline.current) {
+      indicatorTimeline.current.pause();
+    }
+  };
+
+  const handlePressEnd = () => {
+    if (!isPausedByUser.current) return;
+    isPausedByUser.current = false;
+    if (indicatorTimeline.current && !isTransitioning.current) {
+      indicatorTimeline.current.play();
+    }
   };
 
   const handleArrowClick = async (direction: "next" | "prev") => {
@@ -483,7 +509,15 @@ export default function ButterflyGallery() {
   }, []);
 
   return (
-    <div className="butterfly-gallery-root relative w-full h-full select-none overflow-hidden">
+    <div
+      className="butterfly-gallery-root relative w-full h-full select-none overflow-hidden"
+      onTouchStart={handlePressStart}
+      onTouchEnd={handlePressEnd}
+      onTouchCancel={handlePressEnd}
+      onMouseDown={handlePressStart}
+      onMouseUp={handlePressEnd}
+      onMouseLeave={handlePressEnd}
+    >
       {/* Top running indicator */}
       <div className="indicator"></div>
 
