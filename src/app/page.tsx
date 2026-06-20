@@ -121,6 +121,7 @@ export default function Home() {
   const touchStartYRef = useRef(0);
   const touchLastYRef = useRef(0);
   const touchTriggeredRef = useRef(false);
+  const touchGestureTypeRef = useRef<"undetermined" | "horizontal" | "vertical">("undetermined");
 
   // Bind virtual scroll events (wheel & touch swipe) to update progress smoothly via GSAP (Phase 3)
   useEffect(() => {
@@ -264,6 +265,7 @@ export default function Home() {
       touchStartXRef.current = e.touches[0].clientX;
       touchLastYRef.current = e.touches[0].clientY;
       touchTriggeredRef.current = false;
+      touchGestureTypeRef.current = "undetermined";
     };
 
     const handleTouchMove = (e: TouchEvent) => {
@@ -278,13 +280,27 @@ export default function Home() {
 
       if (journeyEnded) {
         // Discrete page transitions on swipe
-        if (!touchTriggeredRef.current) {
+        if (touchGestureTypeRef.current === "undetermined") {
+          const dx = currentX - touchStartXRef.current;
+          const dy = currentY - touchStartYRef.current;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance > 15) {
+            // Determine type of gesture after 15px of movement
+            if (Math.abs(dy) > Math.abs(dx) * 1.5) {
+              touchGestureTypeRef.current = "vertical";
+            } else {
+              touchGestureTypeRef.current = "horizontal";
+            }
+          }
+        }
+
+        // Only allow page transitions if gesture is locked to vertical
+        if (touchGestureTypeRef.current === "vertical" && !touchTriggeredRef.current) {
           const deltaY = touchStartYRef.current - currentY;
-          const deltaX = touchStartXRef.current - currentX;
           const swipeThreshold = 55; // pixels
 
-          // Only trigger page scroll if movement is primarily vertical
-          if (Math.abs(deltaY) > swipeThreshold && Math.abs(deltaY) > Math.abs(deltaX) * 1.5) {
+          if (Math.abs(deltaY) > swipeThreshold) {
             touchTriggeredRef.current = true;
             // Send standard delta to trigger page transition (100 for down, -100 for up)
             updateScrollProgress(deltaY > 0 ? 100 : -100);
@@ -317,13 +333,13 @@ export default function Home() {
   };
 
   return (
-    <div className="relative h-screen w-screen text-white overflow-hidden select-none">
+    <div className="relative h-[100dvh] w-screen text-white overflow-hidden select-none">
       {/* 1. Fixed Viewport Sky Gradient Background (Fallback / Underlay) */}
-      <div className="fixed inset-0 bg-gradient-to-b from-[#003bde] via-[#598cff] to-[#ffffff] z-[-2] pointer-events-none h-screen w-screen" />
+      <div className="fixed inset-0 bg-gradient-to-b from-[#003bde] via-[#598cff] to-[#ffffff] z-[-2] pointer-events-none h-[100dvh] w-screen" />
       
       {/* 2. Premium SVG Grain Texture Noise Overlay */}
       <div 
-        className="fixed inset-0 opacity-[0.035] z-50 pointer-events-none mix-blend-overlay h-screen w-screen bg-repeat" 
+        className="fixed inset-0 opacity-[0.035] z-50 pointer-events-none mix-blend-overlay h-[100dvh] w-screen bg-repeat" 
         style={{
           backgroundImage: `url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='noiseFilter'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23noiseFilter)'/></svg>")`
         }}

@@ -104,7 +104,7 @@ export default function ButterflyGallery() {
       cHeight = 130;
       cGap = 12;
       numSize = 30;
-      oTop = height - 200;
+      oTop = height - 220; // Shift thumbnails up to clear the bottom on tablet
       oLeft = width - 400;
     }
     if (width < 480) {
@@ -112,7 +112,7 @@ export default function ButterflyGallery() {
       cHeight = 100;
       cGap = 8;
       oLeft = width - 300;
-      oTop = height - 160;
+      oTop = height - 190; // Shift thumbnails up to clear the bottom on mobile
     }
 
     cardWidthRef.current = cWidth;
@@ -123,7 +123,7 @@ export default function ButterflyGallery() {
     offsetLeftRef.current = oLeft;
 
     gsap.set("#pagination", {
-      top: oTop + (width < 800 ? 140 : 330),
+      top: oTop + (width < 800 ? (width < 480 ? 120 : 145) : 330), // Account for smaller buttons and higher oTop on mobile/tablet
       left: oLeft,
       y: 200,
       opacity: 0,

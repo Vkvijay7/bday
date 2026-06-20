@@ -3,7 +3,7 @@
 .butterfly-gallery-root {
   position: relative;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   margin: 0;
   padding: 0;
   background-color: #1a1a1a;
@@ -392,6 +392,33 @@
 
   .butterfly-gallery-root .progress-sub-container {
     width: 180px;
+    height: 40px;
+    margin-left: 16px;
+  }
+
+  .butterfly-gallery-root .pagination > .arrow {
+    width: 40px;
+    height: 40px;
+  }
+
+  .butterfly-gallery-root .pagination > .arrow:nth-child(2) {
+    margin-left: 10px;
+  }
+
+  .butterfly-gallery-root .pagination svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .butterfly-gallery-root .slide-numbers {
+    width: 40px;
+    height: 40px;
+  }
+
+  .butterfly-gallery-root .slide-numbers .item {
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
   }
 }
 
@@ -423,6 +450,8 @@
   }
 
   .butterfly-gallery-root .progress-sub-container {
-    width: 100px;
+    width: 90px;
+    height: 40px;
+    margin-left: 10px;
   }
 }
