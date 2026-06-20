@@ -12,6 +12,25 @@
   font-family: "Inter", sans-serif;
   z-index: 65;
   pointer-events: auto;
+
+  /* Disable selection and callouts on touch devices */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.butterfly-gallery-root .card,
+.butterfly-gallery-root .details,
+.butterfly-gallery-root .details * {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 /* Background/thumbnail Cards */

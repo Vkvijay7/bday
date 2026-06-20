@@ -517,6 +517,7 @@ export default function ButterflyGallery() {
       onMouseDown={handlePressStart}
       onMouseUp={handlePressEnd}
       onMouseLeave={handlePressEnd}
+      onContextMenu={(e) => e.preventDefault()}
     >
       {/* Top running indicator */}
       <div className="indicator"></div>
