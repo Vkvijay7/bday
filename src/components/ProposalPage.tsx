@@ -141,6 +141,11 @@ export default function ProposalPage({ onBackClick }: ProposalPageProps) {
       const now = Date.now();
       if (now - lastScrollTime < 600) return; // Cooldown
 
+      // Ignore horizontal trackpad scrolls
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+        return;
+      }
+
       if (e.deltaY < 0) {
         // Scroll Up -> Go back to Video Gallery
         lastScrollTime = now;
@@ -167,15 +172,20 @@ export default function ProposalPage({ onBackClick }: ProposalPageProps) {
       const diffY = touchStartY - currentY;
 
       // Swipe down to go back (diffY < -65)
-      if (Math.abs(diffY) > Math.abs(diffX) && diffY < -65) {
-        onBackClick();
-        touchHasTriggered = true;
+      if (Math.abs(diffY) > Math.abs(diffX)) {
+        if (diffY < -65) {
+          if (e.cancelable) {
+            e.preventDefault();
+          }
+          onBackClick();
+          touchHasTriggered = true;
+        }
       }
     };
 
     window.addEventListener("wheel", handleWheel, { passive: true });
     window.addEventListener("touchstart", handleTouchStart, { passive: true });
-    window.addEventListener("touchmove", handleTouchMove, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: false }); // Non-passive so we can preventDefault()
 
     return () => {
       window.removeEventListener("wheel", handleWheel);

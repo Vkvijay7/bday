@@ -62,10 +62,17 @@ export default function VideoGallery({ onScrollUpExit, onScrollDownExit }: Video
   });
 
   const watchedSlidesRef = useRef(watchedSlides);
+  const activeIndexRef = useRef(activeIndex);
+  const onScrollUpExitRef = useRef(onScrollUpExit);
+  const onScrollDownExitRef = useRef(onScrollDownExit);
+  const lastScrollTimeRef = useRef(0);
 
   useEffect(() => {
     watchedSlidesRef.current = watchedSlides;
-  }, [watchedSlides]);
+    activeIndexRef.current = activeIndex;
+    onScrollUpExitRef.current = onScrollUpExit;
+    onScrollDownExitRef.current = onScrollDownExit;
+  });
 
   const playVideo = (idx: number) => {
     setFullscreenVideo(SLIDES[idx].videoSrc);
@@ -98,35 +105,40 @@ export default function VideoGallery({ onScrollUpExit, onScrollDownExit }: Video
 
   // Bind mouse scroll (wheel) and touch swipes to navigate slides
   useEffect(() => {
-    let lastScrollTime = 0;
-
     const handleWheel = (e: WheelEvent) => {
       const now = Date.now();
-      if (now - lastScrollTime < 600) return; // Cooldown
+      if (now - lastScrollTimeRef.current < 600) return; // Cooldown
+
+      // Ignore horizontal trackpad scrolls
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+        return;
+      }
+
+      const activeIdx = activeIndexRef.current;
 
       if (e.deltaY > 0) {
         // Scroll Down / Forward: check if current is watched
-        if (activeIndex < SLIDES.length - 1) {
-          if (!watchedSlidesRef.current[activeIndex]) return; // Locked!
-          lastScrollTime = now;
-          setActiveIndex((prev) => prev + 1);
+        if (activeIdx < SLIDES.length - 1) {
+          if (!watchedSlidesRef.current[activeIdx]) return; // Locked!
+          lastScrollTimeRef.current = now;
+          setActiveIndex(activeIdx + 1);
         } else {
           // At the final slide, if they scroll down and have watched it, exit to the proposal page!
-          if (watchedSlidesRef.current[activeIndex] && onScrollDownExit) {
-            lastScrollTime = now;
-            onScrollDownExit();
+          if (watchedSlidesRef.current[activeIdx] && onScrollDownExitRef.current) {
+            lastScrollTimeRef.current = now;
+            onScrollDownExitRef.current();
           }
         }
       } else if (e.deltaY < 0) {
         // Scroll Up / Backward
-        if (activeIndex > 0) {
-          lastScrollTime = now;
-          setActiveIndex((prev) => prev - 1);
+        if (activeIdx > 0) {
+          lastScrollTimeRef.current = now;
+          setActiveIndex(activeIdx - 1);
         } else {
           // Exit gallery
-          if (onScrollUpExit) {
-            lastScrollTime = now;
-            onScrollUpExit();
+          if (onScrollUpExitRef.current) {
+            lastScrollTimeRef.current = now;
+            onScrollUpExitRef.current();
           }
         }
       }
@@ -151,29 +163,36 @@ export default function VideoGallery({ onScrollUpExit, onScrollDownExit }: Video
       const diffX = touchStartX - currentX;
       const diffY = touchStartY - currentY;
 
+      const activeIdx = activeIndexRef.current;
+
       // Only handle Vertical Swipe (Swipe Up = Scroll Down, Swipe Down = Scroll Up)
       if (Math.abs(diffY) > Math.abs(diffX)) {
+        // Prevent default native scroll/bounce
+        if (e.cancelable) {
+          e.preventDefault();
+        }
+
         if (diffY > 65) {
           // Swipe Up (Scroll Down) -> advance or exit to proposal page
-          if (activeIndex < SLIDES.length - 1) {
-            if (!watchedSlidesRef.current[activeIndex]) return; // Gated!
-            setActiveIndex((prev) => prev + 1);
+          if (activeIdx < SLIDES.length - 1) {
+            if (!watchedSlidesRef.current[activeIdx]) return; // Gated!
+            setActiveIndex(activeIdx + 1);
             touchHasTriggered = true;
           } else {
             // At final slide, scroll down to exit to proposal page
-            if (watchedSlidesRef.current[activeIndex] && onScrollDownExit) {
-              onScrollDownExit();
+            if (watchedSlidesRef.current[activeIdx] && onScrollDownExitRef.current) {
+              onScrollDownExitRef.current();
               touchHasTriggered = true;
             }
           }
         } else if (diffY < -65) {
           // Swipe Down (Scroll Up) -> previous or exit to butterfly gallery
-          if (activeIndex > 0) {
-            setActiveIndex((prev) => prev - 1);
+          if (activeIdx > 0) {
+            setActiveIndex(activeIdx - 1);
             touchHasTriggered = true;
           } else {
-            if (onScrollUpExit) {
-              onScrollUpExit();
+            if (onScrollUpExitRef.current) {
+              onScrollUpExitRef.current();
               touchHasTriggered = true;
             }
           }
@@ -183,14 +202,14 @@ export default function VideoGallery({ onScrollUpExit, onScrollDownExit }: Video
 
     window.addEventListener("wheel", handleWheel, { passive: true });
     window.addEventListener("touchstart", handleTouchStart, { passive: true });
-    window.addEventListener("touchmove", handleTouchMove, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: false }); // Non-passive so we can preventDefault()
 
     return () => {
       window.removeEventListener("wheel", handleWheel);
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchmove", handleTouchMove);
     };
-  }, [activeIndex, onScrollUpExit]);
+  }, []);
 
   return (
     <div className="video-gallery-root relative w-full h-full flex flex-col justify-center items-center overflow-hidden bg-[#0a0a0d] text-white p-4">

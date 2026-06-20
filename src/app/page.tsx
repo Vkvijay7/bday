@@ -117,6 +117,10 @@ export default function Home() {
 
   const targetProgressRef = useRef(0);
   const scrollStateRef = useRef({ progress: 0 });
+  const touchStartXRef = useRef(0);
+  const touchStartYRef = useRef(0);
+  const touchLastYRef = useRef(0);
+  const touchTriggeredRef = useRef(false);
 
   // Bind virtual scroll events (wheel & touch swipe) to update progress smoothly via GSAP (Phase 3)
   useEffect(() => {
@@ -239,13 +243,27 @@ export default function Home() {
         return;
       }
       e.preventDefault(); // Stop native scrolling
+
+      if (journeyEnded) {
+        // Ignore horizontal trackpad scrolling on page-by-page views
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+          return;
+        }
+        // Require a minimum threshold to filter out tiny accidental scrolls/drags
+        if (Math.abs(e.deltaY) < 15) {
+          return;
+        }
+      }
+
       updateScrollProgress(e.deltaY);
     };
 
-    let touchStartY = 0;
     const handleTouchStart = (e: TouchEvent) => {
       if (showVideoGallery) return;
-      touchStartY = e.touches[0].clientY;
+      touchStartYRef.current = e.touches[0].clientY;
+      touchStartXRef.current = e.touches[0].clientX;
+      touchLastYRef.current = e.touches[0].clientY;
+      touchTriggeredRef.current = false;
     };
 
     const handleTouchMove = (e: TouchEvent) => {
@@ -254,10 +272,30 @@ export default function Home() {
       if (e.cancelable) {
         e.preventDefault();
       }
+
       const currentY = e.touches[0].clientY;
-      const deltaY = touchStartY - currentY; // Swipe up increases progress
-      touchStartY = currentY;
-      updateScrollProgress(deltaY * 3.5); // Swipe gestures need higher multiplier
+      const currentX = e.touches[0].clientX;
+
+      if (journeyEnded) {
+        // Discrete page transitions on swipe
+        if (!touchTriggeredRef.current) {
+          const deltaY = touchStartYRef.current - currentY;
+          const deltaX = touchStartXRef.current - currentX;
+          const swipeThreshold = 55; // pixels
+
+          // Only trigger page scroll if movement is primarily vertical
+          if (Math.abs(deltaY) > swipeThreshold && Math.abs(deltaY) > Math.abs(deltaX) * 1.5) {
+            touchTriggeredRef.current = true;
+            // Send standard delta to trigger page transition (100 for down, -100 for up)
+            updateScrollProgress(deltaY > 0 ? 100 : -100);
+          }
+        }
+      } else {
+        // Continuous scroll progress for flight screen
+        const deltaY = touchLastYRef.current - currentY;
+        touchLastYRef.current = currentY;
+        updateScrollProgress(deltaY * 3.5); // Swipe gestures need higher multiplier
+      }
     };
 
     window.addEventListener("wheel", handleWheel, { passive: false });
